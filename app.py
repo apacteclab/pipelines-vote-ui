@@ -7,8 +7,8 @@ import random
 import json
 import requests
 
-option_a = os.getenv('OPTION_A', u"CI CD (Tekton) Live Demo Test # 888")
-option_b = os.getenv('OPTION_B', u"" )
+option_a = os.getenv('OPTION_A', u"Cat 🐺")
+option_b = os.getenv('OPTION_B', u"Doggg 🐶")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
@@ -16,7 +16,9 @@ app = Flask(__name__)
 
 @app.route("/", methods=['POST','GET'])
 def hello():
-    rest_endpoint="http://" + os.environ["VOTING_API_SERVICE_HOST"] + ":" + os.environ["VOTING_API_SERVICE_PORT"]
+    host = os.getenv("VOTING_API_SERVICE_HOST", "pipelines-vote-api")
+    port = os.getenv("VOTING_API_SERVICE_PORT", "8080")
+    rest_endpoint="http://" + host + ":" + port
     voter_id = request.cookies.get('voter_id')
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
